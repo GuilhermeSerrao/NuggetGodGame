@@ -13,10 +13,6 @@ public class CreateNugget : MonoBehaviour
     [SerializeField]
     Nugget nuggetToSpawn;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -28,7 +24,7 @@ public class CreateNugget : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, groundLayer))
             {
-                Instantiate(nuggetToSpawn, hit.point, Quaternion.identity);                
+                Instantiate(nuggetToSpawn, new Vector3(hit.point.x, hit.point.y + 0.5f, hit.point.z), Quaternion.identity);                
             }
         }
             

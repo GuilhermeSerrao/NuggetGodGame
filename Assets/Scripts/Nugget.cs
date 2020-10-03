@@ -5,99 +5,39 @@ using UnityEngine.AI;
 
 public class Nugget : MonoBehaviour
 {
-
-
     [SerializeField]
     private LayerMask nuggetsLayer;
 
     [SerializeField]
-    private float findOtherNuggetsRange, searchCooldown;
+    private float findOtherNuggetsRange;
 
     [SerializeField]
-    private bool lookingForResources;
+    private float cooldownSearchVillage;
 
-    [SerializeField]
-    private Race race;
+    public string villageName;
 
-    private bool isLookingForOthers = true;
+    public Race race;
 
-    private float startSearchCooldown;
+    public Village village = new Village();
 
-    private List<Nugget> friendlyNearbyNuggets = new List<Nugget>();
+    public bool isSearching = true;
 
-    private NavMeshAgent agent;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        startSearchCooldown = searchCooldown;
-        agent = GetComponent<NavMeshAgent>();
-        SearchNearbyNuggets();
-        
+        village.Name = "";
+        StartCoroutine("SpawnVillageDelay");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SpawnNewVillage()
     {
-        if (friendlyNearbyNuggets.Count >= 3 )
-        {
-
-        }
-
-        if (searchCooldown > 0 && isLookingForOthers)
-        {
-            searchCooldown -= Time.deltaTime;
-        }
-        else if (searchCooldown <= 0)
-        {
-            searchCooldown = startSearchCooldown;
-            SearchNearbyNuggets();
-        }
-
-        if (friendlyNearbyNuggets.Count >= 3)
-        {
-            CreateVillage();
-            
-        }
+        isSearching = false;
+        village = FindObjectOfType<VillageManager>().CreateVillageCenter(transform.position, GetComponent<Nugget>(), race.ToString() + " ");
     }
 
     private void SearchNearbyNuggets()
     {
         RaycastHit[] hits = Physics.SphereCastAll(transform.position, findOtherNuggetsRange, transform.forward, Mathf.Infinity, nuggetsLayer, QueryTriggerInteraction.UseGlobal);
-
-        List<GameObject> nearbyNuggets = new List<GameObject>();
-
-        foreach (var hit in hits)
-        {                
-            if (hit.collider.transform != transform)
-            {
-                nearbyNuggets.Add(hit.collider.gameObject);
-            }
-        }
- 
-        Debug.Log(nearbyNuggets.Count + " Nuggets nearby");
-
-        foreach (var item in nearbyNuggets)
-        {
-            var nugget = item.GetComponent<Nugget>();
-
-            if (nugget.race == race)
-            {
-                if (!friendlyNearbyNuggets.Contains(nugget))
-                {
-                    friendlyNearbyNuggets.Add(item.GetComponent<Nugget>());
-                }
-                
-            }
-        }
-
-    }
-
-    private void CreateVillage()
-    {
-        isLookingForOthers = false;
-        FindObjectOfType<VillageSpawner>().CreateVillage(friendlyNearbyNuggets, race, transform.position);
-        friendlyNearbyNuggets.Clear();
+        
     }
 
     private void OnDrawGizmosSelected()
@@ -105,4 +45,14 @@ public class Nugget : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, findOtherNuggetsRange);
     }
+
+    private IEnumerator SpawnVillageDelay()
+    {
+        yield return new WaitForSeconds(cooldownSearchVillage);
+        if (isSearching)
+        {
+            SpawnNewVillage();
+        }
+    }
+    
 }

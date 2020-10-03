@@ -2,21 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct NuggetGroup
+{
+    public NuggetGroup(int nuggetNumber, List<Nugget> nuggets, int id) : this()
+    {
+        NuggetNumber = nuggetNumber;
+        Nuggets = nuggets;
+        Id = id;
+    }
+
+    public int NuggetNumber { get; set; }
+    public List<Nugget> Nuggets { get; set; }
+
+    public int Id { get; set; }
+
+}
+
 public struct Village
 {
-    public string Name { get; set; }
-    public List<Nugget> Habitants { get; set; }
-    public int Power { get; set; }
-    public Race RaceFaction { get; set; }
-
-    public Village(string Name, List<Nugget> Habitants, int Power, Race RaceFaction) : this()
-    {
-        this.Name = Name;
-        this.Habitants = Habitants;
-        this.Power = Power;
-        this.RaceFaction = RaceFaction;
-
-    }
+    public string Name;
+    public int NuggetNumber;
+    public int Id;
+    public List<Nugget> Members;
+    public Race Faction;
 }
 public enum Race
 {

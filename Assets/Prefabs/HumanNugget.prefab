@@ -153,5 +153,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   findOtherNuggetsRange: 10
-  lookingForResources: 0
+  cooldownSearchVillage: 2
   race: 0
