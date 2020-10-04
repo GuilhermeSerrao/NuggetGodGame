@@ -16,6 +16,14 @@ public class VillageCenter : MonoBehaviour
     [SerializeField]
     private int wood, stone;
 
+    private Vector3 randomLocationInTerritory;
+
+    public List<Nugget> nuggets = new List<Nugget>();
+
+    private Territory territory;
+
+    public int population;
+
     public List<Building> buildings = new List<Building>();
 
     public Village thisVillage;
@@ -24,10 +32,14 @@ public class VillageCenter : MonoBehaviour
 
     private float startCooldownBuild;
 
+    private int builtHouses = 0;
+
     private void Start()
     {
         startCooldownBuild = cooldownBuild;
-        print(buildings.Count);
+        territory = transform.GetChild(0).GetComponent<Territory>();
+        territory.SetSize(areaSize);
+        randomLocationInTerritory = transform.position + new Vector3(Random.Range(-areaSize.x / 2, areaSize.x / 2), 0, Random.Range(-areaSize.z / 2, areaSize.z / 2));
     }
 
     private void Update()
@@ -39,12 +51,43 @@ public class VillageCenter : MonoBehaviour
         else if (cooldownBuild <= 0)
         {
             cooldownBuild = startCooldownBuild;
-            foreach (var item in buildings)
+
+            if (builtHouses == 0)
             {
-                if (item.Name == "House" && wood >= item.WoodCost)
+                foreach (var item in buildings)
                 {
-                    wood -= item.WoodCost;
-                    Instantiate(item.Prop, transform.position + new Vector3(Random.Range(-areaSize.x / 2, areaSize.x / 2), 0, Random.Range(-areaSize.z / 2, areaSize.z / 2)), Quaternion.identity);
+                    if (item.Name == "House" && wood >= item.WoodCost)
+                    {
+                        foreach (var nugget in nuggets)
+                        {
+                            if (nugget.isInVillage)
+                            {
+                                nugget.MoveNugget(randomLocationInTerritory);                                
+                            }
+                        }
+
+                        wood -= item.WoodCost;
+                        Instantiate(item.Prop, randomLocationInTerritory, Quaternion.identity);
+
+                        builtHouses++;
+
+                        break;
+                    }
+                }
+            }
+            else if (population / builtHouses > 3)
+            {
+                foreach (var item in buildings)
+                {
+                    if (item.Name == "House" && wood >= item.WoodCost)
+                    {
+                        wood -= item.WoodCost;
+                        Instantiate(item.Prop, transform.position + new Vector3(Random.Range(-areaSize.x / 2, areaSize.x / 2), 0, Random.Range(-areaSize.z / 2, areaSize.z / 2)), Quaternion.identity);
+
+                        builtHouses++;
+
+                        break;
+                    }
                 }
             }
         }
@@ -64,14 +107,13 @@ public class VillageCenter : MonoBehaviour
                 newNugget.villageName = thisVillage.Name;
 
                 newNugget.MoveNugget(transform.position + new Vector3(Random.Range( -areaSize.x / 2, areaSize.x / 2), 0, Random.Range(-areaSize.z / 2, areaSize.z / 2)));
+
+                population++;
+                nuggets.Add(newNugget);
             }
         }
     }
 
-    private void SendBuilder()
-    {
-
-    }
 
     private void OnDrawGizmosSelected()
     {

@@ -12,8 +12,7 @@ class VillageManager : MonoBehaviour
 
     private List<Village> villages = new List<Village>();
 
-    private List<Building> buildingsToPass = new List<Building>();
-    
+    private List<Building> buildingsToPass = new List<Building>();  
 
 
     public Village CreateVillageCenter(Vector3 spawnPoint, Nugget nugget, string villageName)
@@ -50,9 +49,13 @@ class VillageManager : MonoBehaviour
         nugget.villageName = newVillage.Name;
 
         var newCenter = Instantiate(villageCenter, spawnPoint, Quaternion.identity);
-        newCenter.GetComponent<VillageCenter>().thisVillage = newVillage;
-        newCenter.GetComponent<VillageCenter>().name = newVillage.Name;
-        newCenter.GetComponent<VillageCenter>().buildings = newVillage.Buildings;
+
+        var newcenterComponent = newCenter.GetComponent<VillageCenter>();
+        newcenterComponent.thisVillage = newVillage;
+        newcenterComponent.name = newVillage.Name;
+        newcenterComponent.buildings = newVillage.Buildings;
+        newcenterComponent.population += 1;
+        newcenterComponent.nuggets.Add(nugget);
 
         villages.Add(newVillage);
 

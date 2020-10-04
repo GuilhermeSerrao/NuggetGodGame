@@ -22,7 +22,7 @@ public class Nugget : MonoBehaviour
 
     public Village village = new Village();
 
-    public bool isSearching = true;
+    public bool isSearching = true, isInVillage = true, isBusy = false;
 
     private void Start()
     {
@@ -30,6 +30,11 @@ public class Nugget : MonoBehaviour
         gameObject.name = race + " Nugget";
         village.Name = "";
         StartCoroutine("SpawnVillageDelay");
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     private void SpawnNewVillage()
@@ -57,6 +62,17 @@ public class Nugget : MonoBehaviour
     public void MoveNugget(Vector3 targetPosition)
     {
         navAgent.SetDestination(targetPosition);
+    }
+
+    public void Build(Build building, Vector3 targetPosition)
+    {
+        navAgent.SetDestination(targetPosition);
+    }
+
+    private IEnumerator BuildTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isBusy = false;
     }
     
 }
