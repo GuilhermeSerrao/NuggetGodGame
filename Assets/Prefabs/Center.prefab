@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7805952180134167584}
   - component: {fileID: -528249242317616319}
   - component: {fileID: 1438018941}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,6 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7622b99e38c522047aa94f0fc50e94d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  areaSize: {x: 20, y: 0, z: 20}
+  cooldownBuild: 10
+  wood: 100
+  stone: 0
   name: 
 --- !u!135 &1438018941
 SphereCollider:

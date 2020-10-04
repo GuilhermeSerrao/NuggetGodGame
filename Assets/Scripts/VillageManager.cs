@@ -7,24 +7,52 @@ class VillageManager : MonoBehaviour
     [SerializeField]
     private GameObject villageCenter;
 
+    [SerializeField]
+    private Build[] buildings;
+
     private List<Village> villages = new List<Village>();
 
-    public Village CreateVillageCenter(Vector3 spawnPoint, Nugget nugget, string villageName)
-    {       
+    private List<Building> buildingsToPass = new List<Building>();
+    
 
+
+    public Village CreateVillageCenter(Vector3 spawnPoint, Nugget nugget, string villageName)
+    {              
         var newVillage = new Village();
-        newVillage.Name = villageName + " village " + villages.Count;
+        newVillage.Name = villageName + " Village " + villages.Count;
         newVillage.NuggetNumber = 1;
         newVillage.Id = villages.Count;
         newVillage.Members = new List<Nugget>();
         newVillage.Members.Add(nugget);
         newVillage.Faction = nugget.race;
 
+        foreach (var item in buildings)
+        {
+            if (item.Faction == newVillage.Faction)
+            {
+                var newBuilding = new Building();
+
+                newBuilding.Name = item.name;
+                newBuilding.Prop = item.gameObject;
+                newBuilding.WoodCost = item.WoodCost;
+                newBuilding.StoneCost = item.StoneCost;
+
+                if (newVillage.Buildings == null)
+                {
+                    newVillage.Buildings = new List<Building>();
+                }      
+                
+                newVillage.Buildings.Add(newBuilding);
+
+            }         
+        }
+        
+        nugget.villageName = newVillage.Name;
+
         var newCenter = Instantiate(villageCenter, spawnPoint, Quaternion.identity);
         newCenter.GetComponent<VillageCenter>().thisVillage = newVillage;
         newCenter.GetComponent<VillageCenter>().name = newVillage.Name;
-
-
+        newCenter.GetComponent<VillageCenter>().buildings = newVillage.Buildings;
 
         villages.Add(newVillage);
 

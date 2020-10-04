@@ -13,7 +13,6 @@ public struct NuggetGroup
 
     public int NuggetNumber { get; set; }
     public List<Nugget> Nuggets { get; set; }
-
     public int Id { get; set; }
 
 }
@@ -25,7 +24,19 @@ public struct Village
     public int Id;
     public List<Nugget> Members;
     public Race Faction;
+    public List<Building> Buildings;
+    
 }
+
+public struct Building
+{
+    public string Name;
+    public Race Faction;
+    public GameObject Prop;
+    public int WoodCost;
+    public int StoneCost;
+}
+
 public enum Race
 {
     Human,

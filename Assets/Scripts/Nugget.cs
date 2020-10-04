@@ -14,6 +14,8 @@ public class Nugget : MonoBehaviour
     [SerializeField]
     private float cooldownSearchVillage;
 
+    private NavMeshAgent navAgent;
+
     public string villageName;
 
     public Race race;
@@ -24,6 +26,8 @@ public class Nugget : MonoBehaviour
 
     private void Start()
     {
+        navAgent = GetComponent<NavMeshAgent>();
+        gameObject.name = race + " Nugget";
         village.Name = "";
         StartCoroutine("SpawnVillageDelay");
     }
@@ -31,13 +35,8 @@ public class Nugget : MonoBehaviour
     private void SpawnNewVillage()
     {
         isSearching = false;
-        village = FindObjectOfType<VillageManager>().CreateVillageCenter(transform.position, GetComponent<Nugget>(), race.ToString() + " ");
-    }
-
-    private void SearchNearbyNuggets()
-    {
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, findOtherNuggetsRange, transform.forward, Mathf.Infinity, nuggetsLayer, QueryTriggerInteraction.UseGlobal);
         
+        village = FindObjectOfType<VillageManager>().CreateVillageCenter(new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z), GetComponent<Nugget>(), race.ToString() + " ");
     }
 
     private void OnDrawGizmosSelected()
@@ -53,6 +52,11 @@ public class Nugget : MonoBehaviour
         {
             SpawnNewVillage();
         }
+    }
+
+    public void MoveNugget(Vector3 targetPosition)
+    {
+        navAgent.SetDestination(targetPosition);
     }
     
 }

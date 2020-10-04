@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 48565475}
   - component: {fileID: 48565476}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: NuggetSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,6 +171,11 @@ MonoBehaviour:
     m_Bits: 256
   nuggetToSpawn: {fileID: 6011112356589141526, guid: 5565edea378bdbc45906df722012cedc,
     type: 3}
+  nuggetsToSelect:
+  - {fileID: 7719134339636150844, guid: 1d9f59c2737a9bc419603cdad1df59e6, type: 3}
+  - {fileID: 1937524938809911288, guid: e02e53d04b273764f9c3fdab8194313a, type: 3}
+  - {fileID: 6011112356589141526, guid: 5565edea378bdbc45906df722012cedc, type: 3}
+  - {fileID: 3787526288010330293, guid: 8b935b1317694a3479db3e2b4fcfb9ee, type: 3}
 --- !u!1 &104319366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1101,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 497543632}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.03, y: -0.1, z: 13.81}
+  m_LocalPosition: {x: 42.1, y: -0.1, z: 33.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1108,7 +1113,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14704
+  m_Name: pb_Mesh14708
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1297,6 +1302,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   villageCenter: {fileID: 6756036692335883662, guid: e8bc2ffebe2f8c841adf7a175a466670,
     type: 3}
+  buildings:
+  - {fileID: 7848569544889913660, guid: 8279cb8f52fbcf14e81ef0bbd93c3e40, type: 3}
 --- !u!4 &606034146
 Transform:
   m_ObjectHideFlags: 0
@@ -1415,7 +1422,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1453,7 +1460,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -1481,7 +1488,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 11.06, z: -10}
+  m_LocalPosition: {x: 38.5, y: 28.3, z: -27.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1500,52 +1507,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
---- !u!1 &1339481374
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1339481376}
-  - component: {fileID: 1339481375}
-  m_Layer: 0
-  m_Name: NuggetManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1339481375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339481374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 492c1d5a12c58b84eb52915aba7826af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldownCreateGroup: 5
-  startCooldownCreateGroup: 0
-  nuggetsInWorld: []
---- !u!4 &1339481376
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339481374}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.363333, y: 3.0461903, z: 10.77648}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!850595691 &1456078929
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1643,7 +1604,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14692
+  m_Name: pb_Mesh14696
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
