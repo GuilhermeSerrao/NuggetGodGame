@@ -9,4 +9,5 @@ public class Build : MonoBehaviour
     public GameObject Prop;
     public int WoodCost;
     public int StoneCost;
+    public float TimeToBuild;
 }

@@ -13,8 +13,7 @@ public class VillageCenter : MonoBehaviour
     [SerializeField]
     private float cooldownBuild;
 
-    [SerializeField]
-    private int wood, stone;
+    public int wood, stone;
 
     private Vector3 randomLocationInTerritory;
 
@@ -32,14 +31,14 @@ public class VillageCenter : MonoBehaviour
 
     private float startCooldownBuild;
 
-    private int builtHouses = 0;
+    public int builtHouses = 0;
 
     private void Start()
     {
         startCooldownBuild = cooldownBuild;
         territory = transform.GetChild(0).GetComponent<Territory>();
         territory.SetSize(areaSize);
-        randomLocationInTerritory = transform.position + new Vector3(Random.Range(-areaSize.x / 2, areaSize.x / 2), 0, Random.Range(-areaSize.z / 2, areaSize.z / 2));
+        
     }
 
     private void Update()
@@ -60,17 +59,13 @@ public class VillageCenter : MonoBehaviour
                     {
                         foreach (var nugget in nuggets)
                         {
-                            if (nugget.isInVillage)
+                            if (nugget.isInVillage && !nugget.isBusy)
                             {
-                                nugget.MoveNugget(randomLocationInTerritory);                                
+                                
+                                nugget.GoBuild(item, RandomLocationInTerritory());
+                                break;
                             }
                         }
-
-                        wood -= item.WoodCost;
-                        Instantiate(item.Prop, randomLocationInTerritory, Quaternion.identity);
-
-                        builtHouses++;
-
                         break;
                     }
                 }
@@ -79,15 +74,17 @@ public class VillageCenter : MonoBehaviour
             {
                 foreach (var item in buildings)
                 {
-                    if (item.Name == "House" && wood >= item.WoodCost)
+                    foreach (var nugget in nuggets)
                     {
-                        wood -= item.WoodCost;
-                        Instantiate(item.Prop, transform.position + new Vector3(Random.Range(-areaSize.x / 2, areaSize.x / 2), 0, Random.Range(-areaSize.z / 2, areaSize.z / 2)), Quaternion.identity);
+                        if (nugget.isInVillage && !nugget.isBusy)
+                        {
 
-                        builtHouses++;
-
-                        break;
+                            nugget.GoBuild(item, RandomLocationInTerritory());
+                            break;
+                        }
                     }
+
+                    break;
                 }
             }
         }
@@ -105,15 +102,16 @@ public class VillageCenter : MonoBehaviour
                 thisVillage.Members.Add(newNugget);
                 newNugget.village = thisVillage;
                 newNugget.villageName = thisVillage.Name;
+                newNugget.villageCenter = GetComponent<VillageCenter>();
 
                 newNugget.MoveNugget(transform.position + new Vector3(Random.Range( -areaSize.x / 2, areaSize.x / 2), 0, Random.Range(-areaSize.z / 2, areaSize.z / 2)));
 
                 population++;
                 nuggets.Add(newNugget);
+                
             }
         }
     }
-
 
     private void OnDrawGizmosSelected()
     {
@@ -121,7 +119,8 @@ public class VillageCenter : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, areaSize);
     }
 
-    
+    public Vector3 RandomLocationInTerritory()
+    {
+        return transform.position + new Vector3(Random.Range(-areaSize.x / 2, areaSize.x / 2), 0, Random.Range(-areaSize.z / 2, areaSize.z / 2)); ;
+    }    
 }
-
-

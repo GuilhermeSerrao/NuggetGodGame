@@ -35,6 +35,7 @@ public struct Building
     public GameObject Prop;
     public int WoodCost;
     public int StoneCost;
+    public float time;
 }
 
 public enum Race

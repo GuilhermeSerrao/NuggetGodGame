@@ -14,6 +14,8 @@ public class Nugget : MonoBehaviour
     [SerializeField]
     private float cooldownSearchVillage;
 
+    private Building toBuild;
+
     private NavMeshAgent navAgent;
 
     public string villageName;
@@ -22,7 +24,9 @@ public class Nugget : MonoBehaviour
 
     public Village village = new Village();
 
-    public bool isSearching = true, isInVillage = true, isBusy = false;
+    public VillageCenter villageCenter;
+
+    public bool isSearching = true, isInVillage = true, isBusy = false, isMoving = false, isBuilding = false, isHarvesting = false;
 
     private void Start()
     {
@@ -34,13 +38,29 @@ public class Nugget : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isBuilding)
+        {
+            if (navAgent.remainingDistance > 0.1f)
+            {
+                print("Moving");
+            }
+            else
+            {
+                print(toBuild.time);
+
+                isBuilding = false;
+
+                StartCoroutine(BuildTime(toBuild.time));              
+               
+            }
+        }
         
     }
 
     private void SpawnNewVillage()
     {
         isSearching = false;
-        
+
         village = FindObjectOfType<VillageManager>().CreateVillageCenter(new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z), GetComponent<Nugget>(), race.ToString() + " ");
     }
 
@@ -64,15 +84,30 @@ public class Nugget : MonoBehaviour
         navAgent.SetDestination(targetPosition);
     }
 
-    public void Build(Build building, Vector3 targetPosition)
+    public void GoBuild(Building building, Vector3 targetPosition)
     {
+        isBusy = true;
+        isBuilding = true;
         navAgent.SetDestination(targetPosition);
+        toBuild = building;       
+        
     }
 
     private IEnumerator BuildTime(float time)
     {
-        yield return new WaitForSeconds(time);
+        
         isBusy = false;
+        isBuilding = false;
+        yield return new WaitForSeconds(time);
+
+        villageCenter.wood -= toBuild.WoodCost;
+        Instantiate(toBuild.Prop, new Vector3(transform.position.x + 1, 0, transform.position.z + 1), Quaternion.identity);        
+        FindObjectOfType<NavMeshBaker>().BakeNavMesh();
+        villageCenter.builtHouses++;        
+        navAgent.SetDestination(villageCenter.RandomLocationInTerritory());
+
+        print("Built");
+
     }
-    
+
 }

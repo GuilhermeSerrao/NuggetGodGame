@@ -35,6 +35,7 @@ class VillageManager : MonoBehaviour
                 newBuilding.Prop = item.gameObject;
                 newBuilding.WoodCost = item.WoodCost;
                 newBuilding.StoneCost = item.StoneCost;
+                newBuilding.time = item.TimeToBuild;
 
                 if (newVillage.Buildings == null)
                 {
@@ -56,6 +57,8 @@ class VillageManager : MonoBehaviour
         newcenterComponent.buildings = newVillage.Buildings;
         newcenterComponent.population += 1;
         newcenterComponent.nuggets.Add(nugget);
+
+        nugget.villageCenter = newCenter.GetComponent<VillageCenter>();
 
         villages.Add(newVillage);
 

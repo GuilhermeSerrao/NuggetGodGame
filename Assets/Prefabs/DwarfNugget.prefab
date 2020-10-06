@@ -153,7 +153,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   findOtherNuggetsRange: 10
-  cooldownSearchVillage: 2
+  cooldownSearchVillage: 5
   villageName: 
   race: 3
+  villageCenter: {fileID: 0}
   isSearching: 1
+  isInVillage: 1
+  isBusy: 0
+  isMoving: 0
+  isBuilding: 0
