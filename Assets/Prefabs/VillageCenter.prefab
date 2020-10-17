@@ -154,13 +154,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaSize: {x: 30, y: 10, z: 30}
-  cooldownBuild: 4
+  cooldownBuild: 10
   wood: 10000
   stone: 0
   nuggets: []
   population: 0
   name: 
   builtHouses: 0
+  alreadyBuilding: 0
 --- !u!135 &1438018941
 SphereCollider:
   m_ObjectHideFlags: 0

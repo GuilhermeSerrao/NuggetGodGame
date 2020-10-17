@@ -21,7 +21,7 @@ public class VillageCenter : MonoBehaviour
 
     private Territory territory;
 
-    public int population;
+    public float population;
 
     public List<Building> buildings = new List<Building>();
 
@@ -71,7 +71,7 @@ public class VillageCenter : MonoBehaviour
             cooldownBuild = startCooldownBuild;
             if (builtHouses > 0)
             {
-                if (population / builtHouses > 3)
+                if ( population / builtHouses > 3.0f)
                 {
                     foreach (var build in buildings)
                     {
