@@ -33,12 +33,31 @@ public class VillageCenter : MonoBehaviour
 
     public int builtHouses = 0;
 
+    public bool alreadyBuilding = false;
+
     private void Start()
     {
         startCooldownBuild = cooldownBuild;
         territory = transform.GetChild(0).GetComponent<Territory>();
         territory.SetSize(areaSize);
-        
+
+        foreach (var build in buildings)
+        {
+            if (build.Name == "House")
+            {
+                foreach (var nugget in nuggets)
+                {
+                    if (nugget.isInVillage && !nugget.isBusy)
+                    {
+                        
+                        nugget.GoBuild(build, RandomLocationInTerritory());
+                        
+
+                        break;
+                    }
+                }
+            }            
+        }
     }
 
     private void Update()
@@ -50,43 +69,40 @@ public class VillageCenter : MonoBehaviour
         else if (cooldownBuild <= 0)
         {
             cooldownBuild = startCooldownBuild;
-
-            if (builtHouses == 0)
+            if (builtHouses > 0)
             {
-                foreach (var item in buildings)
+                if (population / builtHouses > 3)
                 {
-                    if (item.Name == "House" && wood >= item.WoodCost)
+                    foreach (var build in buildings)
                     {
-                        foreach (var nugget in nuggets)
+                        if (build.Name == "House")
                         {
-                            if (nugget.isInVillage && !nugget.isBusy)
+                            foreach (var nugget in nuggets)
                             {
+                                if (nugget.isBuilding && nugget.toBuild.Name == "House")
+                                {
+                                    alreadyBuilding = true;
+                                    break;
+                                }
                                 
-                                nugget.GoBuild(item, RandomLocationInTerritory());
-                                break;
                             }
-                        }
-                        break;
-                    }
-                }
-            }
-            else if (population / builtHouses > 3)
-            {
-                foreach (var item in buildings)
-                {
-                    foreach (var nugget in nuggets)
-                    {
-                        if (nugget.isInVillage && !nugget.isBusy)
-                        {
 
-                            nugget.GoBuild(item, RandomLocationInTerritory());
+                            if (!alreadyBuilding)
+                            {
+                                foreach (var item in nuggets)
+                                {
+                                    if (item.isInVillage && !item.isBusy)
+                                    {
+                                        item.GoBuild(build, RandomLocationInTerritory());
+                                        break;
+                                    }
+                                }
+                            }
                             break;
                         }
                     }
-
-                    break;
                 }
-            }
+            }            
         }
     }
 

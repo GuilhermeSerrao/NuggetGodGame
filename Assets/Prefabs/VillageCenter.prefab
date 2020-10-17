@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaSize: {x: 30, y: 10, z: 30}
-  cooldownBuild: 10
+  cooldownBuild: 4
   wood: 10000
   stone: 0
   nuggets: []

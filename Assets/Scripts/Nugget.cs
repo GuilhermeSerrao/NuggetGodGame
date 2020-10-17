@@ -14,7 +14,7 @@ public class Nugget : MonoBehaviour
     [SerializeField]
     private float cooldownSearchVillage;
 
-    private Building toBuild;
+    public Building toBuild;
 
     private NavMeshAgent navAgent;
 
@@ -94,20 +94,18 @@ public class Nugget : MonoBehaviour
     }
 
     private IEnumerator BuildTime(float time)
-    {
+    {       
         
-        isBusy = false;
-        isBuilding = false;
         yield return new WaitForSeconds(time);
 
+        isBusy = false;
+        isBuilding = false;
         villageCenter.wood -= toBuild.WoodCost;
+        villageCenter.alreadyBuilding = false;
         Instantiate(toBuild.Prop, new Vector3(transform.position.x + 1, 0, transform.position.z + 1), Quaternion.identity);        
         FindObjectOfType<NavMeshBaker>().BakeNavMesh();
-        villageCenter.builtHouses++;        
+        villageCenter.builtHouses++;
         navAgent.SetDestination(villageCenter.RandomLocationInTerritory());
-
-        print("Built");
-
     }
 
 }
